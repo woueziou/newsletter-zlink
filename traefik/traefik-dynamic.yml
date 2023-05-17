@@ -1,0 +1,41 @@
+################################################################
+# Http
+################################################################
+
+http:
+  middlewares:
+    traefik-dashboard-auth:
+      basicAuth:
+        users:
+          # 8X65YwtSs4
+          - "admin:$2a$12$Jr264nYdGREgb.WZYFGbYuRvuj1FsZxu3k3nhJDTi5U5TVwGytEDa"
+          # - "admin:$2y$12$3y/ajOt0dE688LA.yWhPT.8cR7Gp1E39QyvxYqWc5IbMUO8CY2aQG "
+
+  routers:
+    traefik-dashboard:
+      rule: "Host(`crt.semfield.com`)"
+      middlewares:
+        - traefik-dashboard-auth
+      entrypoints:
+        - https
+      service: "api@internal"
+      tls:
+        certResolver: le
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
+      sniStrict: true
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+        - TLS_AES_128_GCM_SHA256
+        - TLS_AES_256_GCM_SHA384
+        - TLS_CHACHA20_POLY1305_SHA256
+      curvePreferences:
+        - CurveP521
+        - CurveP384

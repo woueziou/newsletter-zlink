@@ -1,0 +1,54 @@
+################################################################
+# API and dashboard configuration
+################################################################
+
+api:
+  dashboard: true
+
+################################################################
+# Docker configuration backend
+################################################################
+
+providers:
+  docker:
+    #    endpoint: "tcp://127.0.0.1:2377"
+    #    swarmMode: true
+    network: treafik-proxy
+    exposedByDefault: false
+    watch: true
+
+  file:
+    filename: traefik_dynamic.yml
+    watch: true
+
+################################################################
+# Resolvers
+################################################################
+
+certificatesResolvers:
+  le:
+    acme:
+      email: taas.ekpaye@semfield.com
+      #      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      # caServer: https://acme-v02.api.letsencrypt.org/directory
+      keyType: EC256
+      storage: acme.json
+      httpChallenge:
+        entryPoint: http
+
+################################################################
+# Traefik logs configuration
+################################################################
+
+# log:
+#   filePath: traefik.log
+#   format: json
+
+################################################################
+# Access logs configuration
+################################################################
+
+accessLog:
+  filePath: access.log
+  format: json
+
